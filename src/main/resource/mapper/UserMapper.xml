@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--根据id获取用户信息
+    id:标识映射文件中的sql将sql语句封装到mappedStatement对象中，所以id称为statement的id
+    parameterType:指定输入参数类型 #{}：表示占位符#{id}：id表示接收输入的参数，名称是id如果输入参数是简单类型，参数名可以任意，如value或其它名称10
+    resultType:指定sql输出结果映射的java对象类型select 指定resultType表示将单条记录映射成java对象
+-->
+<!--namespace为命名空间，功能是对sql语句进行分类管理，隔离sql语句
+-->
+<mapper namespace="UserTest">
+    <!--通过id查找-->
+    <select id="findUserById" parameterType="int" resultType="com.bh.pojo.User">
+        select *from user  where id=#{value }
+    </select>
+
+   <!-- 添加数据-->
+    <insert id="insertUser" parameterType="com.bh.pojo.User">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            select LAST_INSERT_ID()
+        </selectKey>
+        insert into user (username,birthday,sex,address) values
+        (#{username},#{birthday},#{sex},#{address})
+    </insert>
+
+   <!-- 删除数据-->
+    <delete id="deleteUserById" parameterType="int">
+            delete  from user  where id=#{id}
+    </delete>
+
+    <!--修改数据-->
+    <update id="updataUser" parameterType="com.bh.pojo.User">
+        update user set  username=#{username},birthday=#{birthday},sex=#{sex},address=#{address} where id=#{id}
+    </update>
+
+    <!--uuid的使用-->
+    <insert id="insertUUid" parameterType="com.bh.pojo.Person">
+        <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
+                select uuid();
+        </selectKey>
+        insert into persion (id,username,sex,address) values (#{id},#{username},#{sex},#{address})
+    </insert>
+
+
+   <!-- 模糊查询-->
+    <select id="findUserByName" parameterType="String" resultType="com.bh.pojo.User">
+        select * from USER where username like '%${value}%'
+    </select>
+
+
+</mapper>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- ORM(对象关系映射) 映射文件 -->
+<!-- Mapper 动态代理方式 -->
+<!-- namespace:特点：值为Mapper 接口路径
+-->
+<mapper namespace="com.bh.impl.Mapper">
+<!-- 根据id获取用户信息 -->
+<select id="findUserById" parameterType="int" resultType="user">
+        select * from user where id = #{id}
+    </select>
+</mapper>
